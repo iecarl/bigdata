@@ -1,19 +1,3 @@
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
 FROM ubuntu as unarchive
 
 ARG HADOOP_VERSION
@@ -33,8 +17,6 @@ RUN tar -xzvf /opt/apache-hive-$HIVE_VERSION-bin.tar.gz -C /opt/ && \
     rm -rf /opt/apache-hive-$HIVE_VERSION-bin/jdbc/* 
 RUN tar -xzvf /opt/apache-tez-$TEZ_VERSION-bin.tar.gz -C /opt && \
     rm -rf /opt/apache-tez-$TEZ_VERSION-bin/share/*
-# RUN mkdir -p /opt/tez-$TEZ_VERSION && \
-#     tar -xzvf /opt/tez-$TEZ_VERSION-minimal.tar.gz -C /opt/tez-$TEZ_VERSION
 RUN tar -xzvf /opt/JPam-Linux_amd64-1.1.tgz -C /opt 
 
 FROM openjdk:8-jre-slim AS run
@@ -90,14 +72,5 @@ RUN chmod +x /run.sh
 RUN cp $HADOOP_HOME/share/hadoop/hdfs/lib/guava-27.0-jre.jar $HIVE_HOME/lib && \
     rm $HIVE_HOME/lib/guava-19.0.jar
 
-# RUN adduser --no-create-home --disabled-login --gecos "" --uid $UID hive && \
-#     chown hive $TEZ_HOME && \
-#     chown hive $HIVE_HOME && \
-#     chown hive $HADOOP_HOME && \
-#     chown hive $HADOOP_HOME/etc/hadoop && \
-#     chown hive $HIVE_HOME/conf 
-
-# USER hive
-# WORKDIR $HIVE_HOME
 EXPOSE 10000 10002 9083
 ENTRYPOINT ["sh", "-c", "/entrypoint.sh /run.sh"]

@@ -31,3 +31,10 @@ if ! curl --fail -L "$MYSQL_CONNECTOR_URL" -o "mysql-connector-j_8.0.33-1debian1
   echo "Failed to download MySQL Connector, exiting..."
   exit 1
 fi
+
+JPAM_URL=${JPAM_URL:-"https://sourceforge.net/projects/jpam/files/jpam/jpam-1.1/JPam-Linux_amd64-1.1.tgz"}
+echo "Downloading JPAM Connector from $JPAM_URL..."
+if ! curl --fail -L "$JPAM_URL" -o "JPAM-Linux-amd64-1.1.tgz"; then
+  echo "Failed to download JPAM Connector, exiting..."
+  exit 1
+fi
