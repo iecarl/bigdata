@@ -1,0 +1,85 @@
+version: "3"
+
+services:
+  namenode:
+    image: carlchung/hadoop:3.3.1
+    container_name: namenode
+    restart: always
+    ports:
+      - 9870:9870
+      - 9000:9000
+    volumes:
+      - /mnt/data/hadoop_3.3.1/namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=hadoop
+      - SERVICE_NAME=namenode
+    env_file:
+      - ./hadoop.env
+    networks:
+      - bigdata
+
+  datanode:
+    image: carlchung/hadoop:3.3.1
+    container_name: datanode
+    restart: always
+    depends_on:
+      - namenode
+    volumes:
+      - /mnt/data/hadoop_3.3.1/datanode:/hadoop/dfs/data
+    environment:
+      - SERVICE_NAME=datanode
+    env_file:
+      - ./hadoop.env
+    networks:
+      - bigdata
+  
+  resourcemanager:
+    image: carlchung/hadoop:3.3.1
+    container_name: resourcemanager
+    restart: always
+    depends_on:
+      - namenode
+      - datanode
+    environment:
+      - SERVICE_NAME=resourcemanager  
+    env_file:
+      - ./hadoop.env
+    networks:
+      - bigdata
+
+  nodemanager:
+    image: carlchung/hadoop:3.3.1
+    container_name: nodemanager
+    restart: always
+    depends_on:
+      - namenode
+      - datanode
+      - resourcemanager
+    environment:
+      - SERVICE_NAME=nodemanager  
+    env_file:
+      - ./hadoop.env
+    networks:
+      - bigdata
+  
+  historyserver:
+    image: carlchung/hadoop:3.3.1
+    container_name: historyserver
+    restart: always
+    depends_on:
+      - namenode
+      - datanode
+      - resourcemanager
+    volumes:
+      - /mnt/data/hadoop_3.3.1/historyserver:/hadoop/yarn/timeline
+    environment:
+      - SERVICE_NAME=historyserver  
+    env_file:
+      - ./hadoop.env
+    networks:
+      - bigdata
+
+networks:
+  bigdata:
+    name: bigdata
+    external: true
