@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  mysql8:
+    image: mysql:8.0
+    restart: always
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'c2rlchun9'
+    volumes:
+      - /mnt/data/mysql/data:/var/lib/mysql 
+    ports:
+      - '3306:3306'
+    networks:
+      - bigdata
+
+networks:
+  bigdata:
+    name: bigdata
+    external: true

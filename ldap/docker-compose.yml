@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  ldap:
+    image: osixia/openldap:latest
+    restart: always
+    container_name: ldap
+    environment:
+      LDAP_ORGANISATION: 'LDAP'
+      LDAP_DOMAIN: 'ldap'
+      LDAP_ADMIN_PASSWORD: 'P@ssw0rd' 
+      LDAP_BASE_DN: 'dc=ldap' 
+    volumes:
+      - /mnt/data/slapd/database:/var/lib/ldap 
+      - /mnt/data/slapd/config:/etc/ldap/slapd.d 
+    ports:
+      - '389:389'
+      - '636:636'
+    networks:
+      - bigdata
+
+  ldap-admin:
+    image: osixia/phpldapadmin:latest
+    restart: always
+    container_name: ldap-admin
+    environment: 
+      PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
+      PHPLDAPADMIN_HTTPS: 'false'
+    ports:
+      - '8080:80'
+    networks:
+      - bigdata
+
+networks:
+  bigdata:
+    name: bigdata
+    external: true
