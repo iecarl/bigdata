@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 'c2rlchun9'
+      MYSQL_ROOT_PASSWORD: <<Your MYSQL root password>>
     volumes:
       - /mnt/data/mysql/data:/var/lib/mysql 
     ports:
