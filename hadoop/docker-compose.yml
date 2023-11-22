@@ -9,7 +9,7 @@ services:
       - 9870:9870
       - 9000:9000
     volumes:
-      - /mnt/data/hadoop_3.3.1/namenode:/hadoop/dfs/name
+      - /mnt/data/hadoop/namenode:/hadoop/dfs/name
     environment:
       - CLUSTER_NAME=hadoop
       - SERVICE_NAME=namenode
@@ -25,7 +25,7 @@ services:
     depends_on:
       - namenode
     volumes:
-      - /mnt/data/hadoop_3.3.1/datanode:/hadoop/dfs/data
+      - /mnt/data/hadoop/datanode:/hadoop/dfs/data
     environment:
       - SERVICE_NAME=datanode
     env_file:
@@ -71,7 +71,7 @@ services:
       - datanode
       - resourcemanager
     volumes:
-      - /mnt/data/hadoop_3.3.1/historyserver:/hadoop/yarn/timeline
+      - /mnt/data/hadoop/historyserver:/hadoop/yarn/timeline
     environment:
       - SERVICE_NAME=historyserver  
     env_file:
