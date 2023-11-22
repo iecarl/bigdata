@@ -36,5 +36,4 @@ if [ $? == 1  ]; then
   rm /opt/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz
 fi
 
-# exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp --service $SERVICE_NAME
 exec $HIVE_HOME/bin/hive --service $SERVICE_NAME
