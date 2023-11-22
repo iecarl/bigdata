@@ -3,7 +3,7 @@ version: "3"
 services:
   namenode:
     image: carlchung/hadoop:3.3.1
-    container_name: namenode
+    container_name: hadoop-namenode
     restart: always
     ports:
       - 9870:9870
@@ -20,7 +20,7 @@ services:
 
   datanode:
     image: carlchung/hadoop:3.3.1
-    container_name: datanode
+    container_name: hadoop-datanode
     restart: always
     depends_on:
       - namenode
@@ -35,7 +35,7 @@ services:
   
   resourcemanager:
     image: carlchung/hadoop:3.3.1
-    container_name: resourcemanager
+    container_name: hadoop-resourcemanager
     restart: always
     depends_on:
       - namenode
@@ -49,7 +49,7 @@ services:
 
   nodemanager:
     image: carlchung/hadoop:3.3.1
-    container_name: nodemanager
+    container_name: hadoop-nodemanager
     restart: always
     depends_on:
       - namenode
@@ -64,7 +64,7 @@ services:
   
   historyserver:
     image: carlchung/hadoop:3.3.1
-    container_name: historyserver
+    container_name: hadoop-historyserver
     restart: always
     depends_on:
       - namenode

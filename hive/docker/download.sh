@@ -2,7 +2,7 @@
 
 HIVE_VERSION=3.1.3
 HADOOP_VERSION=3.3.1
-TEZ_VERSION=0.10.0
+TEZ_VERSION=0.10.2
 
 HADOOP_URL=${HADOOP_URL:-"https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz"}
 echo "Downloading Hadoop from $HADOOP_URL..."
