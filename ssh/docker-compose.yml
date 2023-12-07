@@ -3,11 +3,11 @@ version: '3'
 services:
   metastore:
     image: carlchung/ubuntu-ssh-server:22.04
-#    restart: always
-    container_name: ssh-carlchung
+    restart: always
+    container_name: ssh-user
     environment:
-      SSH_USER: carlchung
-      SSH_PASSWORD: C2rlchung
+      SSH_USER: user
+      SSH_PASSWORD: P@ssw0rd
     ports:
       - '2222:22'
     networks:

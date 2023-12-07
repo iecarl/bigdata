@@ -1,1 +1,0 @@
-# Apache Hive Docker Container
