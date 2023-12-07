@@ -4,6 +4,7 @@ FROM ubuntu:$UBUNTU_VERSION
 
 RUN apt-get update 
 RUN apt-get install -y openssh-server
+RUN apt-get install -y sudo
 
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
