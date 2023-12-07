@@ -28,5 +28,12 @@ elif [ "${SERVICE_NAME}" == "metastore" ]; then
   export METASTORE_PORT=${METASTORE_PORT:-9083}
 fi
 
-# exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp --service $SERVICE_NAME
+hdfs dfs -test -r /apps/tez-${TEZ_FINAL_VERSION}/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz
+if [ $? == 1  ]; then
+  tar -cvzf /opt/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz -C ${TEZ_HOME} . --xform 's/.\///'
+  hdfs dfs -mkdir -p /apps/tez-${TEZ_FINAL_VERSION}
+  hdfs dfs -copyFromLocal /opt/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz /apps/tez-${TEZ_FINAL_VERSION}
+  rm /opt/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz
+fi
+
 exec $HIVE_HOME/bin/hive --service $SERVICE_NAME

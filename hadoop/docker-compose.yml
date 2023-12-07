@@ -3,13 +3,13 @@ version: "3"
 services:
   namenode:
     image: carlchung/hadoop:3.3.1
-    container_name: namenode
+    container_name: hadoop-namenode
     restart: always
     ports:
       - 9870:9870
       - 9000:9000
     volumes:
-      - /mnt/data/hadoop_3.3.1/namenode:/hadoop/dfs/name
+      - /mnt/data/hadoop/namenode:/hadoop/dfs/name
     environment:
       - CLUSTER_NAME=hadoop
       - SERVICE_NAME=namenode
@@ -20,12 +20,12 @@ services:
 
   datanode:
     image: carlchung/hadoop:3.3.1
-    container_name: datanode
+    container_name: hadoop-datanode
     restart: always
     depends_on:
       - namenode
     volumes:
-      - /mnt/data/hadoop_3.3.1/datanode:/hadoop/dfs/data
+      - /mnt/data/hadoop/datanode:/hadoop/dfs/data
     environment:
       - SERVICE_NAME=datanode
     env_file:
@@ -35,7 +35,7 @@ services:
   
   resourcemanager:
     image: carlchung/hadoop:3.3.1
-    container_name: resourcemanager
+    container_name: hadoop-resourcemanager
     restart: always
     depends_on:
       - namenode
@@ -49,7 +49,7 @@ services:
 
   nodemanager:
     image: carlchung/hadoop:3.3.1
-    container_name: nodemanager
+    container_name: hadoop-nodemanager
     restart: always
     depends_on:
       - namenode
@@ -64,14 +64,14 @@ services:
   
   historyserver:
     image: carlchung/hadoop:3.3.1
-    container_name: historyserver
+    container_name: hadoop-historyserver
     restart: always
     depends_on:
       - namenode
       - datanode
       - resourcemanager
     volumes:
-      - /mnt/data/hadoop_3.3.1/historyserver:/hadoop/yarn/timeline
+      - /mnt/data/hadoop/historyserver:/hadoop/yarn/timeline
     environment:
       - SERVICE_NAME=historyserver  
     env_file:

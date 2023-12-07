@@ -18,7 +18,7 @@ COPY --from=unarchive /opt/hadoop-$HADOOP_VERSION $HADOOP_HOME
 
 # Install dependencies
 RUN set -ex; \
-    apt-get update; \
+    apt-get -o Acquire::Max-FutureTime=86400 update; \
     apt-get -y install procps; 
 
 ENV HADOOP_CONF_DIR=/etc/hadoop

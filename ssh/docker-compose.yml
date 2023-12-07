@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  metastore:
+    image: carlchung/ubuntu-ssh-server:22.04
+    restart: always
+    container_name: ssh-user
+    environment:
+      SSH_USER: user
+      SSH_PASSWORD: P@ssw0rd
+    ports:
+      - '2222:22'
+    networks:
+      - bigdata
+  
+networks:
+  bigdata:
+    name: bigdata
+    external: true

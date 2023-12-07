@@ -29,16 +29,16 @@ ARG TEZ_VERSION
 ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION 
 ENV HIVE_HOME=/opt/hive-$HIVE_VERSION 
 ENV TEZ_HOME=/opt/tez-$TEZ_VERSION
+ENV TEZ_FINAL_VERSION=$TEZ_VERSION
 
 COPY --from=unarchive /opt/hadoop-$HADOOP_VERSION $HADOOP_HOME
 COPY --from=unarchive /opt/apache-hive-$HIVE_VERSION-bin $HIVE_HOME
 COPY --from=unarchive /opt/apache-tez-$TEZ_VERSION-bin $TEZ_HOME
-# COPY --from=unarchive /opt/tez-$TEZ_VERSION $TEZ_HOME
 COPY --from=unarchive /opt/JPam-1.1/libjpam.so $HADOOP_HOME/lib/native/libjpam.so
 
 # Install dependencies
 RUN set -ex; \
-    apt-get update; \
+    apt-get -o Acquire::Max-FutureTime=86400 update; \
     apt-get -y install procps; 
 
 ENV HADOOP_CONF_DIR=/etc/hadoop
