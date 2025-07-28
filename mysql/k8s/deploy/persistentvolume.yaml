@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+  namespace: mysql
+spec:
+  capacity:
+    storage: 50G
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: mysql
+    name: mysql-pvc
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: hostpath
+  hostPath:
+    path: /run/desktop/mnt/host/d/db/mysql
+    type: Directory
