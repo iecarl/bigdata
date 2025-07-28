@@ -1,3 +1,4 @@
 *.tar.gz
 *.tgz
 *.deb
+**/k8s/deploy/secret.yaml
