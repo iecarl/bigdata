@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:17
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: P@ssw0rd
+    volumes:
+      - /mnt/data/postgres/data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - bigdata
+
+networks:
+  bigdata:
+    name: bigdata
+    external: true
