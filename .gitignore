@@ -2,3 +2,6 @@
 *.tgz
 *.deb
 **/k8s/deploy/secret.yaml
+*.crt
+*.key
+*.pem
