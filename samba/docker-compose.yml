@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  samba:
+    image: dperson/samba
+    container_name: samba
+    environment:
+      TZ: 'Singapore'
+    networks:
+      - o2des
+    ports:
+      - "8137:137/udp"
+      - "8138:138/udp"
+      - "8139:139/tcp"
+      - "8445:445/tcp"
+    tmpfs:
+      - /tmp
+    restart: always
+    volumes:
+      - /mnt/file:/mnt
+
+networks:
+  o2des:
+    name: o2des
+    external: true
