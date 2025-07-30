@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mssql
+  name: mssql-service
+  namespace: mssql
+spec:
+  ports:
+  - port: 1433
+    protocol: TCP
+    targetPort: 1433
+  selector:
+    app: mssql

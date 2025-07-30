@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    restart: unless-stopped
+    ports:
+      - "1433:1433"
+    environment:
+      - MSSQL_SA_PASSWORD=Innovation4.0
+      - ACCEPT_EULA=Y
+      - TZ=Asia/Singapore
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    network:
+      - bigdata
+volumes:
+  sqlvolume:
+    driver: local
+    driver_opts:
+        type: none
+        device: /mnt/data/mssql
+        o: bind
+networks:
+  bigdata:
+    name: bigdata
+    external: true
