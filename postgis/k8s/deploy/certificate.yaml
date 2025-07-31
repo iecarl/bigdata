@@ -5,7 +5,7 @@ metadata:
   namespace: postgis
 spec:
   dnsNames:
-  - sql.o2des.com
+  - postgis.example.com
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer

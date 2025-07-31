@@ -16,15 +16,15 @@ spec:
   csi:
     driver: file.csi.azure.com
     volumeAttributes: 
-      resourceGroup: mc_c4ngpl-k8-resources_c4ngpl-k8_southeastasia
-      storageAccount: mysqlstorage
-      shareName: database
+      resourceGroup: {"resource_group_name"}_{"location"}
+      storageAccount: {"storage_account_name"}
+      shareName: {"share_name"}
       folderName: postgis
-      server: mysqlstorage.file.core.windows.net
+      server: {"storage_account_name"}.file.core.windows.net
       secretnamespace: postgis
       secretName: postgis-storage-secret
       skuName: Standard_LRS
-    volumeHandle: mc_c4ngpl-k8-resources_c4ngpl-k8_southeastasia#mysqlstorage#database#postgis
+    volumeHandle: {"resource_group_name"}_{"location"}#{"storage_account_name"}#{"share_name"}#postgis
     nodeStageSecretRef:
       name: postgis-storage-secret
       namespace: postgis
