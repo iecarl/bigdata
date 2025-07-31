@@ -22,7 +22,7 @@ spec:
               name: postgis-secret
               key: postgis-password
         - name: POSTGRES_INITDB_ARGS
-          value: "--set ssl=on --set ssl_cert_file=/var/lib/postgresql/data/ssl/tls.crt --set ssl_key_file=/var/lib/postgresql/data/ssl/tls.key --set ssl_ca_file=/var/lib/postgresql/data/ssl/ca.crt"
+          value: "--set ssl=on --set ssl_cert_file=/etc/postgresql/ssl/tls.crt --set ssl_key_file=/etc/postgresql/ssl/tls.key --set ssl_ca_file=/etc/postgresql/ssl/ca.crt"
         image: postgis/postgis:17-master
         imagePullPolicy: Always
         name: postgis-app
@@ -30,7 +30,12 @@ spec:
         - containerPort: 5432
           protocol: TCP
         volumeMounts:
+        - mountPath: /etc/postgresql/ssl
+          name: postgis-volume
+          subPath: ssl
+          readOnly: false
         - mountPath: /var/lib/postgresql/data
+          subPath: data
           name: postgis-volume
           readOnly: false
       restartPolicy: Always

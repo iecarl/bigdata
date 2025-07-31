@@ -9,7 +9,7 @@ data:
     ssl-ca=/etc/mysql/ssl/ca.crt
     ssl-cert=/etc/mysql/ssl/tls.crt
     ssl-key=/etc/mysql/ssl/tls.key
-    require_secure_transport=OFF
+    require_secure_transport=ON
 
 ---
 apiVersion: apps/v1
@@ -46,20 +46,13 @@ spec:
           subPath: ssl.cnf
           name: mysql-ssl-config
           readOnly: true
-        - mountPath: /etc/mysql/ssl/ca.crt
-          subPath: ca.crt
-          name: mysql-ssl-ca
-          readOnly: true
-        - mountPath: /etc/mysql/ssl/tls.crt
-          subPath: tls.crt
-          name: mysql-ssl
-          readOnly: true
-        - mountPath: /etc/mysql/ssl/tls.key
-          subPath: tls.key
-          name: mysql-ssl
+        - mountPath: /etc/mysql/ssl
+          name: mysql-volume
+          subPath: ssl
           readOnly: true
         - mountPath: /var/lib/mysql
           name: mysql-volume
+          subPath: data
           readOnly: false
       restartPolicy: Always
       securityContext:
@@ -69,12 +62,6 @@ spec:
       - name: mysql-ssl-config
         configMap:
           name: mysql-ssl-config
-      - name: mysql-ssl-ca
-        configMap:
-          name: kube-root-ca.crt
-      - name: mysql-ssl
-        secret:
-          secretName: mysql-tls
       - name: mysql-volume
         persistentVolumeClaim:
           claimName: mysql-pvc

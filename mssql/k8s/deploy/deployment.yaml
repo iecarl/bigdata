@@ -1,3 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mssql-ssl-config
+  namespace: mssql
+data:
+  mssql.conf: |
+    [network]
+    tlscert = /var/opt/mssql/secrets/tls.crt
+    tlskey = /var/opt/mssql/secrets/tls.key
+    tlsprotocols = 1.2
+    forceencryption = 1
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,14 +45,25 @@ spec:
         - containerPort: 1433
           protocol: TCP
         volumeMounts:
+        - mountPath: /var/opt/mssql/mssql.conf
+          subPath: mssql.conf
+          name: mssql-ssl-config
+        - mountPath: /var/opt/mssql/secrets/
+          name: mssql-volume
+          subPath: ssl
+          readOnly: true
         - mountPath: /var/opt/mssql/data
           name: mssql-volume
+          subPath: data
           readOnly: false
       restartPolicy: Always
       securityContext:
         runAsUser: 10001
         runAsGroup: 10001
       volumes:
+      - name: mssql-ssl-config
+        configMap:
+          name: mssql-ssl-config
       - name: mssql-volume
         persistentVolumeClaim:
           claimName: mssql-pvc
