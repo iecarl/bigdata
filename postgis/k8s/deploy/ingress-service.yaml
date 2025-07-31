@@ -13,9 +13,9 @@ spec:
   externalTrafficPolicy: Local
   internalTrafficPolicy: Cluster
   ports:
-  - name: mysql
-    port: 3306
-    targetPort: 3306
+  - name: postgis
+    port: 5432
+    targetPort: 5432
     protocol: TCP
   selector:
     app.kubernetes.io/component: controller
