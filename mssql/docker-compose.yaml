@@ -7,11 +7,11 @@ services:
     ports:
       - "1433:1433"
     environment:
-      - MSSQL_SA_PASSWORD=Innovation4.0
+      - MSSQL_SA_PASSWORD=P@ssw0rd
       - ACCEPT_EULA=Y
       - TZ=Asia/Singapore
     volumes:
-      - sqlvolume:/var/opt/mssql
+      - sqlvolume:/var/opt/mssql/data
     network:
       - bigdata
 volumes:
@@ -19,7 +19,7 @@ volumes:
     driver: local
     driver_opts:
         type: none
-        device: /mnt/data/mssql
+        device: /mnt/data/mssql/data
         o: bind
 networks:
   bigdata:

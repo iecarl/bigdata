@@ -4,4 +4,4 @@ metadata:
   name: tcp-services
   namespace: ingress-nginx
 data:
-  3306: "mysql/mysql-service:3306"
+  1433: "mssql/mssql-service:1433"
