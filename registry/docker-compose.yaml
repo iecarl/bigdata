@@ -1,0 +1,23 @@
+version: '3'
+services:
+  registry:
+    image: registry:2
+    container_name: registry
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - registryvolume:/var/lib/registry
+    networks:
+      - bigdata
+volumes:
+  registryvolume:
+    driver: local
+    driver_opts:
+        type: none
+        device: /run/desktop/mnt/host/d/db/registry
+        o: bind
+networks:
+  bigdata:
+    name: bigdata
+    external: true
