@@ -1,0 +1,64 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+  name: hadoop-ingress
+  namespace: hadoop
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:  
+      - backend:
+          service:
+            name: namenode
+            port:
+              name: web
+        path: /
+        pathType: Prefix
+    host: namenode.hdfs.local
+  - http:
+      paths:
+      - backend:
+          service:
+            name: datanode
+            port:
+              name: web
+        path: /
+        pathType: Prefix
+    host: datanode.hdfs.local
+  - http:
+      paths:
+      - backend:
+          service:
+            name: yarn
+            port:
+              name: resource-web
+        path: /
+        pathType: Prefix
+    host: resourcemanager.hdfs.local
+  - http:
+      paths:
+      - backend:
+          service:
+            name: yarn
+            port:
+              name: yarn-web
+        path: /
+        pathType: Prefix
+    host: nodemanager.hdfs.local
+  - http:
+      paths:
+      - backend:
+          service:
+            name: yarn
+            port:
+              name: history-web
+        path: /
+        pathType: Prefix
+    host: historyserver.hdfs.local

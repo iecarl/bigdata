@@ -1,0 +1,90 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: namenode
+  name: namenode
+  namespace: hadoop
+spec:
+  ports:
+  - name: node
+    port: 9000
+    protocol: TCP
+    targetPort: node
+  - name: web
+    port: 9870
+    protocol: TCP
+    targetPort: web
+  selector:
+    app: namenode
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: datanode
+  name: datanode
+  namespace: hadoop
+spec:
+  ports:
+  - name: web
+    port: 9864
+    protocol: TCP
+    targetPort: web
+  - name: node
+    port: 9866
+    protocol: TCP
+    targetPort: node
+  - name: ipc
+    port: 9867
+    protocol: TCP
+    targetPort: ipc
+  selector:
+    app: datanode
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: yarn
+  name: yarn
+  namespace: hadoop
+spec:
+  ports:
+  - name: resource-plan
+    port: 8030
+    protocol: TCP
+    targetPort: resource-plan
+  - name: resource-track
+    port: 8031
+    protocol: TCP
+    targetPort: resource-track
+  - name: resource
+    port: 8032
+    protocol: TCP
+    targetPort: resource
+  - name: yarn
+    port: 8040
+    protocol: TCP 
+    targetPort: yarn
+  - name: yarn-web
+    port: 8042
+    protocol: TCP
+    targetPort: yarn-web
+  - name: resource-web
+    port: 8088
+    protocol: TCP
+    targetPort: resource-web
+  - name: history-web
+    port: 8188
+    protocol: TCP
+    targetPort: history-web
+  - name: history
+    port: 10200
+    protocol: TCP
+    targetPort: history
+  selector:
+    app: yarn

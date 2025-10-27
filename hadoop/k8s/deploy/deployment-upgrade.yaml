@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: upgrade
+  name: upgrade
+  namespace: hadoop
+spec:
+  selector:
+    matchLabels:
+      app: upgrade
+  template:
+    metadata:
+      labels:
+        app: upgrade
+    spec:
+      containers:
+      - env:
+        - name: CLUSTER_NAME
+          value: hadoop
+        - name: SERVICE_NAME
+          value: upgrade
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+        - configMapRef:
+            name: namenode-configmap
+        image: localhost:5000/hadoop:3.3.1
+        imagePullPolicy: Always
+        name: upgrade
+        volumeMounts:
+        - mountPath: /hadoop/dfs/name
+          name: hadoop-volume
+          subPath: namenode
+          readOnly: false
+      restartPolicy: Always
+      volumes:
+      - name: hadoop-volume
+        persistentVolumeClaim:
+          claimName: hadoop-pvc

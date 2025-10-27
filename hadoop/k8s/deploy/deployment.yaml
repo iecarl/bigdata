@@ -1,0 +1,185 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: namenode
+  name: namenode
+  namespace: hadoop
+spec:
+  selector:
+    matchLabels:
+      app: namenode
+  template:
+    metadata:
+      labels:
+        app: namenode
+    spec:
+      containers:      
+      - env:
+        - name: CLUSTER_NAME
+          value: hadoop
+        - name: SERVICE_NAME
+          value: namenode
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+        - configMapRef:
+            name: namenode-configmap
+        image: localhost:5000/hadoop:3.3.1
+        imagePullPolicy: Always
+        name: namenode
+        ports:
+        - containerPort: 9000
+          name: node
+          protocol: TCP
+        - containerPort: 9870
+          name: web
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /hadoop/dfs/name
+          name: hadoop-volume
+          subPath: namenode
+          readOnly: false
+      restartPolicy: Always
+      volumes:
+      - name: hadoop-volume
+        persistentVolumeClaim:
+          claimName: hadoop-pvc
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: datanode
+  name: datanode
+  namespace: hadoop
+spec:
+  selector:
+    matchLabels:
+      app: datanode
+  template:
+    metadata:
+      labels:
+        app: datanode
+    spec:
+      containers:      
+      - env:
+        - name: SERVICE_NAME
+          value: datanode
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+        image: localhost:5000/hadoop:3.3.1
+        imagePullPolicy: Always
+        name: datanode
+        ports:
+        - containerPort: 9864
+          name: web
+          protocol: TCP
+        - containerPort: 9866
+          name: node
+          protocol: TCP
+        - containerPort: 9867
+          name: ipc
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /hadoop/dfs/data
+          name: hadoop-volume
+          subPath: datanode
+          readOnly: false
+      restartPolicy: Always
+      volumes:
+      - name: hadoop-volume
+        persistentVolumeClaim:
+          claimName: hadoop-pvc
+          
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: yarn
+  name: yarn
+  namespace: hadoop
+spec:
+  selector:
+    matchLabels:
+      app: yarn
+  template:
+    metadata:
+      labels:
+        app: yarn
+    spec:
+      containers:      
+      - env:
+        - name: SERVICE_NAME
+          value: resourcemanager
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+        - configMapRef:
+            name: yarn-configmap
+        image: localhost:5000/hadoop:3.3.1
+        imagePullPolicy: Always
+        name: resourcemanager
+        ports:
+        - containerPort: 8030
+          name: resource-plan
+          protocol: TCP
+        - containerPort: 8031
+          name: resource-track
+          protocol: TCP
+        - containerPort: 8032
+          name: resource
+          protocol: TCP
+        - containerPort: 8088
+          name: resource-web
+          protocol: TCP
+      - env:
+        - name: SERVICE_NAME
+          value: nodemanager
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+        - configMapRef:
+            name: yarn-configmap
+        image: localhost:5000/hadoop:3.3.1
+        imagePullPolicy: Always
+        name: nodemanager
+        ports:
+        - containerPort: 8040
+          name: yarn
+          protocol: TCP
+        - containerPort: 8042
+          name: yarn-web
+          protocol: TCP
+      - env:
+        - name: SERVICE_NAME
+          value: historyserver
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+        - configMapRef:
+            name: yarn-configmap
+        image: localhost:5000/hadoop:3.3.1
+        imagePullPolicy: Always
+        name: historyserver
+        ports:
+        - containerPort: 8188
+          name: history-web
+          protocol: TCP
+        - containerPort: 10200
+          name: history
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /hadoop/yarn/timeline
+          name: hadoop-volume
+          subPath: historyserver
+          readOnly: false
+      restartPolicy: Always
+      volumes:
+      - name: hadoop-volume
+        persistentVolumeClaim:
+          claimName: hadoop-pvc

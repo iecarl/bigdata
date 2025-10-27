@@ -2,7 +2,13 @@
 
 set -x
 
-export HADOOP_CLIENT_OPTS="$HADOOP_CLIENT_OPTS -Xmx1G"
+hdfs dfs -test -r /apps/tez-${TEZ_FINAL_VERSION}/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz
+if [ $? == 1  ]; then
+  tar -cvzf /opt/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz -C ${TEZ_HOME} . --xform 's/.\///'
+  hdfs dfs -mkdir -p /apps/tez-${TEZ_FINAL_VERSION}
+  hdfs dfs -put /opt/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz ${TEZ_CLUSTER_HADOOP_APP}
+  rm /opt/tez-${TEZ_FINAL_VERSION}-minimal.tar.gz
+fi
 
 if [ "${SERVICE_NAME}" == "namenode" ]; then
   namedir=`echo $HDFS_CONF_dfs_namenode_name_dir | perl -pe 's#file://##'`
@@ -32,4 +38,9 @@ elif [ "${SERVICE_NAME}" == "resourcemanager" ]; then
   exec $HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR $SERVICE_NAME  
 elif [ "${SERVICE_NAME}" == "historyserver" ]; then
   exec $HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR $SERVICE_NAME  
+elif [ "${SERVICE_NAME}" == "upgrade" ]; then
+  exec $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR namenode -upgrade
+  exec hdfs dfsadmin -finalizeUpgrade
+else
+  exec tail -f /dev/null 
 fi
