@@ -11,7 +11,7 @@ RUN tar -xzvf /opt/hadoop-$HADOOP_VERSION.tar.gz -C /opt/ && \
 RUN tar -xzvf /opt/apache-tez-$TEZ_VERSION-bin.tar.gz -C /opt && \
     rm -rf /opt/apache-tez-$TEZ_VERSION-bin/share/*
 
-FROM openjdk:11-slim AS run
+FROM openjdk:21-slim AS run
 
 ARG HADOOP_VERSION
 ARG TEZ_VERSION
@@ -33,13 +33,13 @@ RUN set -ex; \
 ENV HADOOP_CONF_DIR=/etc/hadoop
 RUN cp -r $HADOOP_HOME/etc/hadoop /etc
 
-ENV HADOOP_CLIENT_OPTS="-Xmx1G"
-# ENV HADOOP_CLIENT_OPTS="$HADOOP_CLIENT_OPTS -Djava.security.manager=allow"
-# ENV HADOOP_NAMENODE_OPTS="-Djava.security.manager=allow"
-# ENV HADOOP_DATANODE_OPTS="-Djava.security.manager=allow"
-# ENV YARN_RESOURCEMANAGER_OPTS="-Djava.security.manager=allow"
-# ENV YARN_NODEMANAGER_OPTS="-Djava.security.manager=allow"
-# ENV YARN_HISTORYSERVER_OPTS="-Djava.security.manager=allow"
+ENV HDFS_CLIENT_OPTS="-Xmx1G"
+ENV HDFS_CLIENT_OPTS="$HDFS_CLIENT_OPTS -Djava.security.manager=allow"
+ENV HDFS_NAMENODE_OPTS="-Djava.security.manager=allow"
+ENV HDFS_DATANODE_OPTS="-Djava.security.manager=allow"
+ENV YARN_RESOURCEMANAGER_OPTS="-Djava.security.manager=allow"
+ENV YARN_NODEMANAGER_OPTS="-Djava.security.manager=allow"
+ENV YARN_HISTORYSERVER_OPTS="-Djava.security.manager=allow"
 ENV MAPRED_CONF_yarn_app_mapreduce_am_env="HADOOP_MAPRED_HOME=/opt/hadoop-$HADOOP_VERSION/"
 ENV MAPRED_CONF_mapreduce_map_env="HADOOP_MAPRED_HOME=/opt/hadoop-$HADOOP_VERSION/"
 ENV MAPRED_CONF_mapreduce_reduce_env="HADOOP_MAPRED_HOME=/opt/hadoop-$HADOOP_VERSION/"

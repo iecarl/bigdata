@@ -1,8 +1,8 @@
 #!/bin/bash
 
 repo=localhost:5000
-HADOOP_VERSION=3.3.1
-TEZ_VERSION=0.10.2
+HADOOP_VERSION=3.4.2
+TEZ_VERSION=0.10.5
 
 docker build . \
     -f "Dockerfile" \

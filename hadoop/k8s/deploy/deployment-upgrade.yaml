@@ -26,9 +26,16 @@ spec:
             name: core-configmap
         - configMapRef:
             name: namenode-configmap
-        image: localhost:5000/hadoop:3.3.1
+        image: localhost:5000/hadoop:3.4.2
         imagePullPolicy: Always
         name: upgrade
+        ports:
+        - containerPort: 9000
+          name: node
+          protocol: TCP
+        - containerPort: 9870
+          name: web
+          protocol: TCP
         volumeMounts:
         - mountPath: /hadoop/dfs/name
           name: hadoop-volume

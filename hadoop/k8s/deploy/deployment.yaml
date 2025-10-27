@@ -26,7 +26,7 @@ spec:
             name: core-configmap
         - configMapRef:
             name: namenode-configmap
-        image: localhost:5000/hadoop:3.3.1
+        image: localhost:5000/hadoop:3.4.2
         imagePullPolicy: Always
         name: namenode
         ports:
@@ -71,7 +71,7 @@ spec:
         envFrom:
         - configMapRef:
             name: core-configmap
-        image: localhost:5000/hadoop:3.3.1
+        image: localhost:5000/hadoop:3.4.2
         imagePullPolicy: Always
         name: datanode
         ports:
@@ -121,7 +121,7 @@ spec:
             name: core-configmap
         - configMapRef:
             name: yarn-configmap
-        image: localhost:5000/hadoop:3.3.1
+        image: localhost:5000/hadoop:3.4.2
         imagePullPolicy: Always
         name: resourcemanager
         ports:
@@ -145,7 +145,7 @@ spec:
             name: core-configmap
         - configMapRef:
             name: yarn-configmap
-        image: localhost:5000/hadoop:3.3.1
+        image: localhost:5000/hadoop:3.4.2
         imagePullPolicy: Always
         name: nodemanager
         ports:
@@ -163,7 +163,7 @@ spec:
             name: core-configmap
         - configMapRef:
             name: yarn-configmap
-        image: localhost:5000/hadoop:3.3.1
+        image: localhost:5000/hadoop:3.4.2
         imagePullPolicy: Always
         name: historyserver
         ports:
