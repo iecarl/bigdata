@@ -11,8 +11,8 @@ spec:
   claimRef:
     namespace: mssql
     name: mssql-pvc
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: hostpath
-  hostPath:
+  hostPath:c
     path: /run/desktop/mnt/host/d/db/mssql
     type: Directory

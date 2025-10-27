@@ -11,7 +11,7 @@ spec:
   claimRef:
     namespace: mysql
     name: mysql-pvc
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: hostpath
   hostPath:
     path: /run/desktop/mnt/host/d/db/mysql

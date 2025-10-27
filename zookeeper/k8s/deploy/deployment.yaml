@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: zookeeper
+  name: zookeeper
+  namespace: zookeeper
+spec:
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+      - env:
+        - name: ZOO_MY_ID
+          value: '1'
+        - name: ZOO_ADMINSERVER_ENABLED
+          value: 'false'
+        image: zookeeper:3.8.4
+        imagePullPolicy: Always
+        name: upgrade
+        ports:
+        - containerPort: 2181
+          name: zookeeper
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /data
+          name: zookeeper-volume
+          subPath: data
+          readOnly: false
+        - mountPath: /datalog
+          name: zookeeper-volume
+          subPath: datalog
+          readOnly: false
+      restartPolicy: Always
+      volumes:
+      - name: zookeeper-volume
+        persistentVolumeClaim:
+          claimName: zookeeper-pvc

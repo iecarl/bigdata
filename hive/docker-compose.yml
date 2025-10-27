@@ -8,8 +8,6 @@ services:
     environment:
       DB_DRIVER: mysql
       SERVICE_NAME: 'metastore'
-      METASTORE_PORT: 9083
-      IS_RESUME: true
     ports:
       - '9083:9083'
     env_file:
@@ -24,8 +22,6 @@ services:
     restart: always
     container_name: hive-server2
     environment:
-      HIVE_SERVER2_THRIFT_PORT: 10000
-      IS_RESUME: 'true'
       SERVICE_NAME: 'hiveserver2'
     ports:
       - '10000:10000'

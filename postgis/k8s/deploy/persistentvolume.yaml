@@ -11,7 +11,7 @@ spec:
   claimRef:
     namespace: postgis
     name: postgis-pvc
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: hostpath
   hostPath:
     path: /run/desktop/mnt/host/d/db/postgis

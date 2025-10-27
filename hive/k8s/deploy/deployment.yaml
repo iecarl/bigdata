@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: metastore
+  name: metastore
+  namespace: hive
+spec:
+  selector:
+    matchLabels:
+      app: metastore
+  template:
+    metadata:
+      labels:
+        app: metastore
+    spec:
+      containers:      
+      - env:
+        - name: SERVICE_NAME
+          value: metastore
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+        - configMapRef:
+            name: metastore-configmap
+        image: localhost:5000/hive:3.1.3
+        imagePullPolicy: Always
+        name: metastore
+        ports:
+        - containerPort: 9083
+          name: metastore
+          protocol: TCP
+      enableServiceLinks: false
+      restartPolicy: Always
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: hiveserver2
+  name: hiveserver2
+  namespace: hive
+spec:
+  selector:
+    matchLabels:
+      app: hiveserver2
+  template:
+    metadata:
+      labels:
+        app: hiveserver2
+    spec:
+      containers:      
+      - env:
+        - name: SERVICE_NAME
+          value: hiveserver2
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+        - configMapRef:
+            name: hiveserver2-configmap
+        image: localhost:5000/hive:3.1.3
+        imagePullPolicy: Always
+        name: hiveserver2
+        ports:
+        - containerPort: 10000
+          name: hiveserver2
+          protocol: TCP
+        - containerPort: 10002
+          name: web
+          protocol: TCP
+      enableServiceLinks: false
+      restartPolicy: Always

@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: metastore
+  name: metastore
+  namespace: hive
+spec:
+  ports:
+  - name: metastore
+    port: 9083
+    protocol: TCP
+    targetPort: metastore
+  selector:
+    app: metastore
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hiveserver2
+  name: hiveserver2
+  namespace: hive
+spec:
+  ports:
+  - name: hiveserver2
+    port: 10000
+    protocol: TCP
+    targetPort: hiveserver2
+  - name: web
+    port: 10002
+    protocol: TCP
+    targetPort: web
+  selector:
+    app: hiveserver2

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-repo=carlchung
-HIVE_VERSION=3.1.3
-HADOOP_VERSION=3.3.1
-TEZ_VERSION=0.10.2
+repo=localhost:5000
+HIVE_VERSION=4.1.0
+HADOOP_VERSION=3.4.2
+TEZ_VERSION=0.10.5
 
 docker build . \
     -f "Dockerfile" \

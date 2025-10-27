@@ -32,6 +32,13 @@ if ! curl --fail -L "$MYSQL_CONNECTOR_URL" -o "mysql-connector-j_8.0.33-1debian1
   exit 1
 fi
 
+POSTGRESQL_CONNECTOR_URL=${POSTGRESQL_CONNECTOR_URL:-"https://jdbc.postgresql.org/download/postgresql-42.7.8.jar"}
+echo "Downloading MySQL Connector from $POSTGRESQL_CONNECTOR_URL..."
+if ! curl --fail -L "$POSTGRESQL_CONNECTOR_URL" -o "postgresql-42.7.8.jar"; then
+  echo "Failed to download MySQL Connector, exiting..."
+  exit 1
+fi
+
 JPAM_URL=${JPAM_URL:-"https://sourceforge.net/projects/jpam/files/jpam/jpam-1.1/JPam-Linux_amd64-1.1.tgz"}
 echo "Downloading JPAM Connector from $JPAM_URL..."
 if ! curl --fail -L "$JPAM_URL" -o "JPAM-Linux-amd64-1.1.tgz"; then

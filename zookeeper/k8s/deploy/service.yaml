@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: zookeeper
+  name: zookeeper
+  namespace: zookeeper
+spec:
+  ports:
+  - name: zookeeper
+    port: 2181
+    protocol: TCP
+    targetPort: zookeeper
+  selector:
+    app: zookeeper

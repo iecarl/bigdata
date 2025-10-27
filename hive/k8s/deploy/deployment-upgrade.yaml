@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: upgradeschema
+  name: upgradeschema
+  namespace: hive
+spec:
+  selector:
+    matchLabels:
+      app: upgrade
+  template:
+    metadata:
+      labels:
+        app: upgrade
+    spec:
+      containers:
+      - env:
+        - name: SERVICE_NAME
+          value: upgradeschema
+        - name: DB_DRIVER
+          value: postgres
+        envFrom:
+        - configMapRef:
+            name: hive4-core-configmap
+        image: localhost:5000/hive:4.1.0
+        imagePullPolicy: Always
+        name: upgrade

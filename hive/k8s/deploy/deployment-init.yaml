@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: init
+  name: init
+  namespace: hive
+spec:
+  selector:
+    matchLabels:
+      app: init
+  template:
+    metadata:
+      labels:
+        app: init
+    spec:
+      containers:
+      - env:
+        - name: SERVICE_NAME
+          value: initschema
+        - name: DB_DRIVER
+          value: postgres
+        envFrom:
+        - configMapRef:
+            name: core-configmap
+            namespace: hadoop
+        - configMapRef:
+            name: yarn-configmap
+            namespace: hadoop
+        - configMapRef:
+            name: core-configmap
+            namespace: hive
+        image: localhost:5000/hive:3.1.3
+        imagePullPolicy: Always
+        name: init
