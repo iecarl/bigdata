@@ -70,5 +70,5 @@ spec:
         - containerPort: 10002
           name: web
           protocol: TCP
-#       enableServiceLinks: false
+      enableServiceLinks: false
       restartPolicy: Always

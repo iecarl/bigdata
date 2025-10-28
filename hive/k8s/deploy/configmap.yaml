@@ -38,10 +38,12 @@ metadata:
   namespace: hive
 data:
   HIVESERVER2_CONF_hive_metastore_uris: thrift://metastore.hive:9083
-  HIVESERVER2_CONF_hive_security_authorization_enabled: 'false'
-  # HIVESERVER2_CONF_hive_security_authorization_enabled: 'true'
+  
+  HIVESERVER2_CONF_hive_security_authorization_enabled: 'true'
   HIVESERVER2_CONF_hive_security_authorization_manager: org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory
   HIVESERVER2_CONF_hive_security_authenticator_manager: org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator
+
+  HIVESERVER2_CONF_hive_server2_authentication: NONE
 
   # HIVESERVER2_CONF_hive_server2_authentication: PAM
   # HIVESERVER2_CONF_hive_server2_authentication_pam_services: login
