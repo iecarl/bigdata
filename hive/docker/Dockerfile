@@ -18,7 +18,7 @@ RUN tar -xzvf /opt/apache-tez-$TEZ_VERSION-bin.tar.gz -C /opt && \
     rm -rf /opt/apache-tez-$TEZ_VERSION-bin/share/*
 RUN tar -xzvf /opt/JPam-Linux_amd64-1.1.tgz -C /opt 
 
-FROM openjdk:17-slim AS run
+FROM openjdk:21-slim AS run
 
 ARG HADOOP_VERSION
 ARG HIVE_VERSION
