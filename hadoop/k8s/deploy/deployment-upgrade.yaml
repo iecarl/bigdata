@@ -3,17 +3,17 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app: upgrade
+    app: namenode
   name: upgrade
   namespace: hadoop
 spec:
   selector:
     matchLabels:
-      app: upgrade
+      app: namenode
   template:
     metadata:
       labels:
-        app: upgrade
+        app: namenode
     spec:
       containers:
       - env:
@@ -26,7 +26,7 @@ spec:
             name: core-configmap
         - configMapRef:
             name: namenode-configmap
-        image: localhost:5000/hadoop:3.4.2
+        image: 10.246.112.138:5000/hadoop:3.4.2
         imagePullPolicy: Always
         name: upgrade
         ports:
