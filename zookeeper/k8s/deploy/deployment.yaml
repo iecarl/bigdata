@@ -23,7 +23,7 @@ spec:
           value: 'false'
         image: zookeeper:3.8.4
         imagePullPolicy: Always
-        name: upgrade
+        name: zookeeper
         ports:
         - containerPort: 2181
           name: zookeeper
