@@ -26,7 +26,7 @@ spec:
             name: core-configmap
         - configMapRef:
             name: namenode-configmap
-        image: 10.246.112.138:5000/hadoop:3.4.2
+        image: localhost:5000/hadoop:3.4.2
         imagePullPolicy: Always
         name: upgrade
         ports:
