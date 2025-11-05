@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: docker-registry
+  name: docker-registry
+  namespace: docker-registry
+spec:
+  selector:
+    matchLabels:
+      app: docker-registry
+  template:
+    metadata:
+      labels:
+        app: docker-registry
+    spec:
+      containers:
+      - env:
+        - name: REGISTRY_AUTH
+          value: htpasswd
+        - name: REGISTRY_AUTH_HTPASSWD_PATH
+          value: /auth/htpasswd
+        - name: REGISTRY_AUTH_HTPASSWD_REALM
+          value: Registry Realm
+        image: registry:2
+        imagePullPolicy: Always
+        name: docker-registry-app
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /var/lib/registry
+          subPath: data
+          name: docker-registry-volume
+          readOnly: false
+        - mountPath: /auth
+          subPath: auth
+          name: docker-registry-volume
+          readOnly: false
+      restartPolicy: Always
+      volumes:
+      - name: docker-registry-volume
+        persistentVolumeClaim:
+          claimName: docker-registry-pvc

@@ -1,0 +1,43 @@
+version: '3'
+services:
+  registry:
+    image: registry:2
+    container_name: registry
+    environment:
+      REGISTRY_HTTP_TLS_CERTIFICATE: /etc/docker/ssl/tls.crt,
+      REGISTRY_HTTP_TLS_KEY: /etc/docker/ssl/tls.key,
+      REGISTRY_AUTH: htpasswd,
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd,
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm,
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - registryvolume:/var/lib/registry
+      - sslvolume:/etc/docker/ssl
+      - authvolume:/auth
+    networks:
+      - bigdata
+volumes:
+  registryvolume:
+    driver: local
+    driver_opts:
+        type: none
+        device: /run/desktop/mnt/host/d/db/registry/data
+        o: bind
+  sslvolume:
+    driver: local
+    driver_opts:
+        type: none
+        device: /run/desktop/mnt/host/d/db/registry/ssl
+        o: bind
+  authvolume:
+    driver: local 
+    driver_opts:
+        type: none
+        device: /run/desktop/mnt/host/d/db/registry/auth
+        o: bind
+networks:
+  bigdata:
+    name: bigdata
+    external: true
