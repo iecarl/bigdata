@@ -5,7 +5,7 @@ metadata:
   namespace: mysql
 spec:
   capacity:
-    storage: 50G
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   claimRef:

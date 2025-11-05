@@ -5,7 +5,7 @@ metadata:
   namespace: postgis
 spec:
   capacity:
-    storage: 20G
+    storage: 20Gi
   accessModes:
     - ReadWriteOnce
   claimRef:
