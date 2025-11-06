@@ -9,11 +9,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: upgrade
+      app: upgradeschema
   template:
     metadata:
       labels:
-        app: upgrade
+        app: upgradeschema
     spec:
       containers:
       - env:
@@ -23,7 +23,7 @@ spec:
           value: postgres
         envFrom:
         - configMapRef:
-            name: hive4-core-configmap
+            name: core-configmap
         image: localhost:5000/hive:4.1.0
         imagePullPolicy: Always
-        name: upgrade
+        name: upgradeschema
