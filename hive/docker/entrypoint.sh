@@ -34,6 +34,7 @@ function configure() {
 }
 
 configure /etc/hadoop/core-site.xml core CORE_CONF
+configure /etc/hadoop/hdfs-site.xml hdfs HDFS_CONF
 configure /etc/hive/hive-site.xml hive HIVE_CONF
 if [ "${SERVICE_NAME}" == "metastore" ]; then
     configure /etc/hive/hive-site.xml metastore HIVEMETASTORE_CONF

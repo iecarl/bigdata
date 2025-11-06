@@ -11,7 +11,7 @@ RUN tar -xzvf /opt/hadoop-$HADOOP_VERSION.tar.gz -C /opt/ && \
 RUN tar -xzvf /opt/apache-tez-$TEZ_VERSION-bin.tar.gz -C /opt && \
     rm -rf /opt/apache-tez-$TEZ_VERSION-bin/share/*
 
-FROM openjdk:21-slim AS run
+FROM eclipse-temurin:21-jdk AS run
 
 ARG HADOOP_VERSION
 ARG TEZ_VERSION
