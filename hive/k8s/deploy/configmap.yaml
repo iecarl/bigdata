@@ -8,6 +8,9 @@ data:
   CORE_CONF_fs_defaultFS: hdfs://namenode.hadoop:9000
   CORE_CONF_hadoop_http_staticuser_user: root
 
+  HDFS_CONF_dfs_client_use_datanode_hostname: 'true'
+  HDFS_CONF_dfs_datanode_use_datanode_hostname: 'true'
+
   TEZ_CONF_tez_lib_uris: hdfs://namenode.hadoop:9000/apps/tez-0.10.5/tez-0.10.5-minimal.tar.gz
   TEZ_CONF_tez_use_cluster_hadoop___libs: 'false' 
 
@@ -39,9 +42,9 @@ metadata:
 data:
   HIVESERVER2_CONF_hive_metastore_uris: thrift://metastore.hive:9083
   
-  HIVESERVER2_CONF_hive_security_authorization_enabled: 'true'
-  HIVESERVER2_CONF_hive_security_authorization_manager: org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory
-  HIVESERVER2_CONF_hive_security_authenticator_manager: org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator
+  # HIVESERVER2_CONF_hive_security_authorization_enabled: 'true'
+  # HIVESERVER2_CONF_hive_security_authorization_manager: org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdHiveAuthorizerFactory
+  # HIVESERVER2_CONF_hive_security_authenticator_manager: org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator
 
   HIVESERVER2_CONF_hive_server2_authentication: NONE
 
