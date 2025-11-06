@@ -12,8 +12,8 @@ data:
   HDFS_CONF_dfs_permissions_enabled: 'false'
   HDFS_CONF_dfs_namenode_datanode_registration_ip___hostname___check: 'false'
 
-  HDFS_CONF_dfs_client_use_datanode_hostname: 'false'
-  HDFS_CONF_dfs_datanode_use_datanode_hostname: 'false'
+  HDFS_CONF_dfs_client_use_datanode_hostname: 'true'
+  HDFS_CONF_dfs_datanode_use_datanode_hostname: 'true'
 
   TEZ_CONF_tez_lib_uris: hdfs://namenode.hadoop:9000/apps/tez-0.10.5/tez-0.10.5-minimal.tar.gz
   TEZ_CONF_tez_use_cluster_hadoop___libs: 'false' 

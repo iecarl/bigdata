@@ -28,6 +28,7 @@ metadata:
   name: datanode
   namespace: hadoop
 spec:
+  clusterIP: None
   ports:
   - name: web
     port: 9864
