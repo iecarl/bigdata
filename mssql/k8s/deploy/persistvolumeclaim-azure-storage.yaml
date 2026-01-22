@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mssql-pvc
+  namespace: mssql
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: azurefile
+  volumeMode: Filesystem
+  volumeName: mssql-pv
+  resources:
+    requests:
+      storage: 50Gi
