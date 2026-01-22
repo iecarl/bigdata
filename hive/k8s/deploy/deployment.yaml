@@ -67,7 +67,7 @@ spec:
         - containerPort: 10000
           name: hiveserver2
           protocol: TCP
-        - containerPort: 10002
+        - containerPort: 80
           name: web
           protocol: TCP
       enableServiceLinks: false

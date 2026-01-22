@@ -30,7 +30,7 @@ spec:
     protocol: TCP
     targetPort: hiveserver2
   - name: web
-    port: 10002
+    port: 80
     protocol: TCP
     targetPort: web
   selector:

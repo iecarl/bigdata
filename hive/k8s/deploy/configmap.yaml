@@ -65,3 +65,5 @@ data:
   HIVESERVER2_CONF_hive_exec_submit_local_task_via_child: 'false'
   HIVESERVER2_CONF_mapreduce_framework_name: hive
   HIVESERVER2_CONF_hive_execution_engine: tez
+
+  HIVESERVER2_CONF_hive_server2_webui_port: '80'

@@ -1,0 +1,31 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: mysql-gateway
+  namespace: mysql
+spec:
+  gatewayClassName: traefik
+  listeners:
+    - name: mysql
+      protocol: TCP
+      port: 3306
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: mysql-tcp
+  namespace: mysql
+spec:
+  parentRefs:
+    - name: mysql-gateway
+      sectionName: mysql
+      kind: Gateway
+  rules:
+     - backendRefs:
+        - name: mysql-service
+          namespace: mysql
+          port: 3306

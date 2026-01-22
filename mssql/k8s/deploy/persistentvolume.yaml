@@ -5,7 +5,7 @@ metadata:
   namespace: mssql
 spec:
   capacity:
-    storage: 20Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   claimRef:
@@ -13,6 +13,6 @@ spec:
     name: mssql-pvc
   persistentVolumeReclaimPolicy: Retain
   storageClassName: hostpath
-  hostPath:c
+  hostPath:
     path: /run/desktop/mnt/host/d/db/mssql
     type: Directory

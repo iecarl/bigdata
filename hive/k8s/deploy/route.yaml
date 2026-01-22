@@ -1,0 +1,70 @@
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: hive-gateway
+  namespace: traefik
+spec:
+  from:
+  - group: "gateway.networking.k8s.io"
+    kind: HTTPRoute
+    namespace: hive
+  to:
+  - group: "gateway.networking.k8s.io"
+    kind: Gateway
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: hive-gateway
+  namespace: hive
+spec:
+  gatewayClassName: traefik
+  listeners:
+    - name: hiveserver2
+      protocol: TCP
+      port: 10000
+      allowedRoutes:
+        namespaces:
+          from: Same
+
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: hive-tcp
+  namespace: hive
+spec:
+  parentRefs:
+    - name: hive-gateway
+      sectionName: hiveserver2
+      kind: Gateway
+  rules:
+     - backendRefs:
+        - name: hiveserver2
+          namespace: hive
+          port: 10000
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: hive-http
+  namespace: hive
+spec:
+  parentRefs:
+    - name: traefik-gateway
+      namespace: traefik
+      sectionName: websecure
+      kind: Gateway
+  hostnames:
+    - hiveserver2.localhost
+  rules:
+     - matches:
+        - path:
+            type: PathPrefix
+            value: /
+       backendRefs:
+        - name: hiveserver2
+          namespace: hive
+          port: 80
