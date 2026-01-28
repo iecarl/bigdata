@@ -42,13 +42,11 @@ spec:
         - containerPort: 3306
           protocol: TCP
         volumeMounts:
-        - mountPath: /etc/mysql/conf.d/ssl.cnf
-          subPath: ssl.cnf
+        - mountPath: /etc/mysql/conf.d
           name: mysql-ssl-config
           readOnly: true
         - mountPath: /etc/mysql/ssl
-          name: mysql-volume
-          subPath: ssl
+          name: mysql-ssl
           readOnly: true
         - mountPath: /var/lib/mysql
           name: mysql-volume
@@ -58,10 +56,20 @@ spec:
       securityContext:
         runAsUser: 999
         runAsGroup: 999
+        fsGroup: 999
       volumes:
       - name: mysql-ssl-config
-        configMap:
-          name: mysql-ssl-config
+        projected:
+          sources:
+          - configMap:
+              name: mysql-ssl-config
+      - name: mysql-ssl
+        projected:
+          sources:
+          - configMap:
+              name: kube-root-ca.crt
+          - secret:
+              name: mysql-tls
       - name: mysql-volume
         persistentVolumeClaim:
           claimName: mysql-pvc

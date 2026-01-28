@@ -31,8 +31,7 @@ spec:
           protocol: TCP
         volumeMounts:
         - mountPath: /etc/postgresql/ssl
-          name: postgis-volume
-          subPath: ssl
+          name: postgis-ssl
           readOnly: false
         - mountPath: /var/lib/postgresql/data
           subPath: data
@@ -42,7 +41,16 @@ spec:
       securityContext:
         runAsUser: 999
         runAsGroup: 999
+        fsGroup: 999
       volumes:
+      - name: postgis-ssl
+        projected:
+          sources:
+          - configMap:
+              name: kube-root-ca.crt
+          - secret:
+              name: postgis-tls
+          defaultMode: 0600
       - name: postgis-volume
         persistentVolumeClaim:
           claimName: postgis-pvc

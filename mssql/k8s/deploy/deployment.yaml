@@ -48,9 +48,9 @@ spec:
         - mountPath: /var/opt/mssql/mssql.conf
           subPath: mssql.conf
           name: mssql-ssl-config
-        - mountPath: /var/opt/mssql/secrets/
-          name: mssql-volume
-          subPath: ssl
+          readOnly: true
+        - mountPath: /var/opt/mssql/secrets
+          name: mssql-ssl
           readOnly: true
         - mountPath: /var/opt/mssql/data
           name: mssql-volume
@@ -60,10 +60,18 @@ spec:
       securityContext:
         runAsUser: 10001
         runAsGroup: 10001
+        fsGroup: 10001
       volumes:
       - name: mssql-ssl-config
         configMap:
           name: mssql-ssl-config
+      - name: mssql-ssl
+        projected:
+          sources:
+          - configMap:
+              name: kube-root-ca.crt
+          - secret:
+              name: mssql-tls
       - name: mssql-volume
         persistentVolumeClaim:
           claimName: mssql-pvc
