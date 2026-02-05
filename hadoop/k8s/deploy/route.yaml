@@ -1,17 +1,69 @@
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: ReferenceGrant
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
 metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
   name: hadoop-gateway
-  namespace: traefik
+  namespace: hadoop
 spec:
-  from:
-  - group: "gateway.networking.k8s.io"
-    kind: HTTPRoute
-    namespace: hadoop
-  to: 
-  - group: "gateway.networking.k8s.io"
-    kind: Gateway
+  gatewayClassName: traefik
+  listeners:
+    - name: namenode
+      hostname: namenode.hdfs.localhost
+      protocol: HTTPS
+      port: 8443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: namenode-hadoop-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: datanode
+      hostname: datanode.hdfs.localhost
+      protocol: HTTPS
+      port: 8443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: datanode-hadoop-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: resourcemanager
+      hostname: resourcemanager.hdfs.localhost
+      protocol: HTTPS
+      port: 8443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: resourcemanager-hadoop-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: nodemanager
+      hostname: nodemanager.hdfs.localhost  
+      protocol: HTTPS
+      port: 8443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: nodemanager-hadoop-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: historyserver
+      hostname: historyserver.hdfs.localhost
+      protocol: HTTPS
+      port: 8443  
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: historyserver-hadoop-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
 
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -21,12 +73,9 @@ metadata:
   namespace: hadoop
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik
-      sectionName: websecure
+    - name: hadoop-gateway
+      sectionName: namenode
       kind: Gateway
-  hostnames:
-    - namenode.hdfs.localhost
   rules:
      - matches:
         - path:
@@ -44,12 +93,9 @@ metadata:
   namespace: hadoop
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik
-      sectionName: websecure
+    - name: hadoop-gateway
+      sectionName: datanode
       kind: Gateway
-  hostnames:
-    - datanode.hdfs.localhost
   rules:
      - matches:
         - path:
@@ -67,12 +113,9 @@ metadata:
   namespace: hadoop
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik
-      sectionName: websecure
+    - name: hadoop-gateway
+      sectionName: resourcemanager
       kind: Gateway
-  hostnames:
-    - resourcemanager.hdfs.localhost
   rules:
      - matches:
         - path:
@@ -90,12 +133,10 @@ metadata:
   namespace: hadoop
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik
-      sectionName: websecure
+    - name: hadoop-gateway
+      namespace: hadoop
+      sectionName: nodemanager
       kind: Gateway
-  hostnames:
-    - nodemanager.hdfs.localhost
   rules:
      - matches:
         - path:
@@ -113,12 +154,9 @@ metadata:
   namespace: hadoop
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik
-      sectionName: websecure
+    - name: hadoop-gateway
+      sectionName: historyserver
       kind: Gateway
-  hostnames:
-    - historyserver.hdfs.localhost
   rules:
      - matches:
         - path:
