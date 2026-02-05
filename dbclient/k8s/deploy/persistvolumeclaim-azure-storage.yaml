@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dbclient-pvc
+  namespace: dbclient
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: azurefile
+  volumeMode: Filesystem
+  volumeName: dbclient-pv
+  resources:
+    requests:
+      storage: 500Gi
