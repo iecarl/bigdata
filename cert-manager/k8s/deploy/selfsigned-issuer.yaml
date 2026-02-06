@@ -19,7 +19,7 @@ spec:
     size: 256
   subject:
     organizations:
-      - "localhost"
+      - "example.com"
     organizationalUnits:
       - "Self Signed CA"
   issuerRef:
