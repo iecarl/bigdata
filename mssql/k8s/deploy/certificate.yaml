@@ -10,4 +10,6 @@ spec:
     group: cert-manager.io
     kind: ClusterIssuer
     name: letsencrypt-cluster-issuer
+  privateKey:
+    rotationPolicy: Never
   secretName: mssql-tls
