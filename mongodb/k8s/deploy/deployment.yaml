@@ -1,0 +1,98 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongodb-config
+  namespace: mongodb
+data:
+  mongod.conf: |
+    storage:
+      dbPath: /data/db
+    net:
+      bindIp: 0.0.0.0
+      port: 27017
+#       tls:
+#         allowConnectionsWithoutCertificates: true
+#         mode: preferTLS
+#         certificateKeyFile: /etc/mongo/ssl/tls.key
+#         CAFile: /etc/mongo/ssl/ca.crt     
+#         clusterFile: /etc/mongo/ssl/tls.crt
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mongodb
+  name: mongodb
+  namespace: mongodb
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - command:
+        - mongod
+        - --config
+        - /etc/mongo/mongod.conf
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: mongodb-secret
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: mongodb-secret
+        image: mongo
+        imagePullPolicy: Always
+        name: mongodb
+        ports:
+        - containerPort: 27017
+          name: mongodb
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            memory: 2Gi
+          requests:
+            cpu: 900m
+            memory: 1Gi
+        volumeMounts:
+        - mountPath: /etc/mongo/mongod.conf
+          name: mongodb-config
+          subPath: mongod.conf
+          readOnly: true
+        - mountPath: /data/db
+          name: mongodb-volume
+          subPath: data
+          readOnly: false
+        - mountPath: /etc/mongo/ssl
+          name: mongodb-ssl
+          readOnly: false
+      restartPolicy: Always
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+      volumes:
+      - name: mongodb-config
+        configMap:
+          name: mongodb-config
+      - name: mongodb-ssl
+        projected:
+          sources:
+          - configMap:
+              name: kube-root-ca.crt
+          - secret:
+              name: mongodb-tls
+          defaultMode: 0600
+      - name: mongodb-volume
+        persistentVolumeClaim:
+          claimName: mongodb-pvc
