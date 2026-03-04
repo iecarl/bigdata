@@ -4,11 +4,12 @@ services:
     image: registry:2
     container_name: registry
     environment:
-      REGISTRY_HTTP_TLS_CERTIFICATE: /etc/docker/ssl/tls.crt,
-      REGISTRY_HTTP_TLS_KEY: /etc/docker/ssl/tls.key,
-      REGISTRY_AUTH: htpasswd,
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd,
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm,
+      REGISTRY_HTTP_TLS_CERTIFICATE: /etc/docker/ssl/tls.crt
+      REGISTRY_HTTP_TLS_KEY: /etc/docker/ssl/tls.key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: "Docker Registry Realm"
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
     restart: unless-stopped
     ports:
       - "5000:5000"
