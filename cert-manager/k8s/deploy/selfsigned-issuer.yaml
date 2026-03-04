@@ -17,6 +17,7 @@ spec:
   privateKey:
     algorithm: ECDSA
     size: 256
+    rotationPolicy: Never
   subject:
     organizations:
       - "example.com"
