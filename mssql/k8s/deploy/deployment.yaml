@@ -43,6 +43,7 @@ spec:
         name: mssql-app
         ports:
         - containerPort: 1433
+          name: mssql
           protocol: TCP
         volumeMounts:
         - mountPath: /var/opt/mssql/mssql.conf
