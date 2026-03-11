@@ -1,3 +1,29 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: docker-registry-config
+  namespace: docker-registry
+data:
+  config.yml: |
+    version: 0.1
+    log:
+      level: warn
+      fields:
+        service: registry
+    service: registry
+    http:
+      addr: :5000
+    auth:
+      htpasswd:
+        path: /auth/htpasswd
+        realm: Registry Realm
+    storage:
+      delete:
+        enabled: true
+      filesystem:
+        rootdirectory: /var/lib/registry
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -15,14 +41,7 @@ spec:
         app: docker-registry
     spec:
       containers:
-      - env:
-        - name: REGISTRY_AUTH
-          value: htpasswd
-        - name: REGISTRY_AUTH_HTPASSWD_PATH
-          value: /auth/htpasswd
-        - name: REGISTRY_AUTH_HTPASSWD_REALM
-          value: Registry Realm
-        image: registry:2
+      - image: registry:3
         imagePullPolicy: Always
         name: docker-registry-app
         ports:
@@ -33,6 +52,10 @@ spec:
           subPath: data
           name: docker-registry-volume
           readOnly: false
+        - mountPath: /etc/distribution/config.yml
+          subPath: config.yml
+          name: docker-registry-config
+          readOnly: true
         - mountPath: /auth
           subPath: auth
           name: docker-registry-volume
@@ -42,3 +65,6 @@ spec:
       - name: docker-registry-volume
         persistentVolumeClaim:
           claimName: docker-registry-pvc
+      - name: docker-registry-config
+        configMap:
+          name: docker-registry-config
