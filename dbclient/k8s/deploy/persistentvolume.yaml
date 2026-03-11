@@ -14,5 +14,5 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: hostpath
   hostPath:
-    path: /mnt/data/backup/databases
+    path: /run/desktop/mnt/host/d/db/backup
     type: Directory
