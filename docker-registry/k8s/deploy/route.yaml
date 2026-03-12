@@ -11,13 +11,6 @@ spec:
   listeners:
     - name: web
       hostname: docker-registry.localhost
-      protocol: HTTP
-      port: 8000
-      allowedRoutes:
-        namespaces:
-          from: Same
-    - name: websecure
-      hostname: docker-registry.localhost
       protocol: HTTPS
       port: 8443
       tls:
@@ -38,10 +31,6 @@ spec:
     - name: docker-registry-gateway
       namespace: docker-registry
       sectionName: web
-      kind: Gateway
-    - name: docker-registry-gateway
-      namespace: docker-registry
-      sectionName: websecure
       kind: Gateway
   rules:
      - matches:
