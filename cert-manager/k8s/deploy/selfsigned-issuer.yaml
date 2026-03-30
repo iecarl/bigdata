@@ -20,7 +20,7 @@ spec:
     rotationPolicy: Never
   subject:
     organizations:
-      - "example.com"
+      - "localhost"
     organizationalUnits:
       - "Self Signed CA"
   issuerRef:
