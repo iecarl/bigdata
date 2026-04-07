@@ -1,0 +1,31 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: redis-gateway
+  namespace: redis
+spec:
+  gatewayClassName: traefik
+  listeners:
+    - name: redis
+      protocol: TCP
+      port: 6379
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: redis-tcp
+  namespace: redis
+spec:
+  parentRefs:
+    - name: redis-gateway
+      sectionName: redis
+      kind: Gateway
+  rules:
+     - backendRefs:
+        - name: redis-service
+          namespace: redis
+          port: 6379
